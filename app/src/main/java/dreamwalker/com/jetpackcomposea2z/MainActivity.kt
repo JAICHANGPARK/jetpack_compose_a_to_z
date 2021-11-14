@@ -3,12 +3,13 @@ package dreamwalker.com.jetpackcomposea2z
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
+
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -25,6 +26,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -32,11 +34,11 @@ import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import dreamwalker.com.jetpackcomposea2z.ui.theme.JetpackComposeA2ZTheme
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 @ExperimentalComposeUiApi
 class MainActivity : ComponentActivity() {
+    private val viewModel by viewModels<MainViewModel>();
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //Compose 시작점
@@ -46,9 +48,7 @@ class MainActivity : ComponentActivity() {
             var isFavorite by rememberSaveable {
                 mutableStateOf(false)
             }
-            val data = remember {
-                mutableStateOf("Hello")
-            }
+
             JetpackComposeA2ZTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     Column(
@@ -91,6 +91,11 @@ fun NavigationTest() {
         }
 
     }
+
+}
+
+class MainViewModel : ViewModel() {
+    val data = mutableStateOf("Hello")
 
 }
 
