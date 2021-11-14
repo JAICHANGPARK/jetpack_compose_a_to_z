@@ -44,14 +44,18 @@ class MainActivity : ComponentActivity() {
 
             JetpackComposeA2ZTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    ImageCard(
-                        isFavorite = isFavorite,
-                        modifier = Modifier
-                            .fillMaxWidth(fraction = 0.5f)
-                            .padding(16.dp),
-                    ) { it ->
-                        isFavorite = it
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+
+                    ) {
+                        TextField(value = "", onValueChange = {})
+                        Button(onClick = { /*TODO*/ }) {
+                            Text("클릭")
+                        }
                     }
+
                 }
             }
         }
