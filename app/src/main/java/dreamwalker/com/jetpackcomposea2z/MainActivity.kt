@@ -24,6 +24,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -37,43 +39,63 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+//Compose 시작점
         setContent {
-            //Compose 시작점
+
             val scrollState = rememberScrollState()
             var isFavorite by rememberSaveable {
                 mutableStateOf(false)
             }
-
-            val navController = rememberNavController()
-
-            NavHost(
-                navController = navController,
-                startDestination = "first",
-            ) {
-                composable("first") {
-                    FirstScreen()
-                }
-                composable("second") {
-                    SecondScreen()
-                }
-                composable("third") {
-                    ThirdScreen()
-                }
-
+            val data = remember {
+                mutableStateOf("Hello")
             }
             JetpackComposeA2ZTheme {
                 Surface(color = MaterialTheme.colors.background) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center
 
+                    ) {
+                        Text(data.value, fontSize = 30.sp)
+                        Button(onClick = {
+                            data.value = "World"
+
+                        }) {
+                            Text("변경")
+                        }
+                    }
                 }
             }
         }
     }
 }
 
+@Composable
+fun NavigationTest() {
+    val navController = rememberNavController()
+    NavHost(
+        navController = navController,
+        startDestination = "first",
+    ) {
+        composable("first") {
+            FirstScreen(navController)
+        }
+        composable("second") {
+            SecondScreen(navController)
+        }
+        composable("third/{value}") { backStackEntry ->
+            ThirdScreen(
+                value = backStackEntry.arguments?.getString("value") ?: "",
+                navController = navController
+            )
+        }
+
+    }
+
+}
 
 @Composable
-fun FirstScreen() {
+fun FirstScreen(navController: NavController) {
     val (value, setValue) = remember {
         mutableStateOf("")
     }
@@ -85,12 +107,19 @@ fun FirstScreen() {
     ) {
         Text("첫번째 화면")
         Spacer(modifier = Modifier.height(24.dp))
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = {
+            navController.navigate("second")
+        }) {
             Text("두번째")
         }
         Spacer(modifier = Modifier.height(24.dp))
         TextField(value = value, onValueChange = setValue)
-        Button(onClick = { /*TODO*/ }) {
+        Spacer(modifier = Modifier.height(24.dp))
+        Button(onClick = {
+            if (value.isNotEmpty()) {
+                navController.navigate("third/$value")
+            }
+        }) {
             Text("세번째")
         }
     }
@@ -98,7 +127,7 @@ fun FirstScreen() {
 
 
 @Composable
-fun SecondScreen() {
+fun SecondScreen(navController: NavController) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -107,7 +136,10 @@ fun SecondScreen() {
     ) {
         Text("두번째 화면")
         Spacer(modifier = Modifier.height(24.dp))
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = { /*TODO*/
+
+            navController.popBackStack()
+        }) {
             Text("뒤로가기")
         }
 
@@ -116,8 +148,21 @@ fun SecondScreen() {
 
 
 @Composable
-fun ThirdScreen() {
+fun ThirdScreen(value: String, navController: NavController) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("세번째 화면")
+        Spacer(modifier = Modifier.height(24.dp))
+        Text("")
+        Spacer(modifier = Modifier.height(24.dp))
+        Button(onClick = { navController.navigateUp() }) {
+            Text("뒤로가기")
+        }
 
+    }
 }
 
 
