@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import dreamwalker.com.jetpackcomposea2z.ui.theme.JetpackComposeA2ZTheme
@@ -42,20 +43,35 @@ class MainActivity : ComponentActivity() {
             var isFavorite by rememberSaveable {
                 mutableStateOf(false)
             }
-
-
-
-
+            val navController = rememberNavController()
 
             JetpackComposeA2ZTheme {
                 Surface(color = MaterialTheme.colors.background) {
-
 
                 }
             }
         }
     }
 }
+
+
+@Composable
+fun FirstScreen(){
+
+}
+
+
+@Composable
+fun SecondScreen(){
+
+}
+
+
+@Composable
+fun ThirdScreen(){
+
+}
+
 
 @ExperimentalComposeUiApi
 @Composable
