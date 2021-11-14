@@ -16,17 +16,21 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import dreamwalker.com.jetpackcomposea2z.ui.theme.JetpackComposeA2ZTheme
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
+@ExperimentalComposeUiApi
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +52,8 @@ class MainActivity : ComponentActivity() {
             }
 
             val scaffoldState = rememberScaffoldState()
-
             val scope = rememberCoroutineScope()
+            val keyboardController = LocalSoftwareKeyboardController.current
 
 
             JetpackComposeA2ZTheme {
@@ -67,8 +71,10 @@ class MainActivity : ComponentActivity() {
                             TextField(value = text, onValueChange = setValue)
                             Button(onClick = {
                                 //suspense는 코루틴에서 실행
-
+                                keyboardController?.hide()
+                                scope.cancel()
                                 scope.launch {
+
                                     scaffoldState.snackbarHostState.
                                     showSnackbar("Hello World : $text")
                                 }
