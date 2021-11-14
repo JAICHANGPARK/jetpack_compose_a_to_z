@@ -74,13 +74,44 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun FirstScreen() {
+    val (value, setValue) = remember {
+        mutableStateOf("")
+    }
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
 
+    ) {
+        Text("첫번째 화면")
+        Spacer(modifier = Modifier.height(24.dp))
+        Button(onClick = { /*TODO*/ }) {
+            Text("두번째")
+        }
+        Spacer(modifier = Modifier.height(24.dp))
+        TextField(value = value, onValueChange = setValue)
+        Button(onClick = { /*TODO*/ }) {
+            Text("세번째")
+        }
+    }
 }
 
 
 @Composable
 fun SecondScreen() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
 
+    ) {
+        Text("두번째 화면")
+        Spacer(modifier = Modifier.height(24.dp))
+        Button(onClick = { /*TODO*/ }) {
+            Text("뒤로가기")
+        }
+
+    }
 }
 
 
