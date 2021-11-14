@@ -72,7 +72,6 @@ class MainActivity : ComponentActivity() {
                             Button(onClick = {
                                 //suspense는 코루틴에서 실행
                                 keyboardController?.hide()
-                                scope.cancel()
                                 scope.launch {
 
                                     scaffoldState.snackbarHostState.
