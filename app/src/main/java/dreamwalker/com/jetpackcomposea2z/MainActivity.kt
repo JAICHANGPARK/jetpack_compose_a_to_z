@@ -43,51 +43,58 @@ class MainActivity : ComponentActivity() {
                 mutableStateOf(false)
             }
 
-//            val textValue : MutableState= remember {
-//                mutableStateOf("")
-//            }
 
-            val (text, setValue) = remember {
-                mutableStateOf("")
-            }
 
-            val scaffoldState = rememberScaffoldState()
-            val scope = rememberCoroutineScope()
-            val keyboardController = LocalSoftwareKeyboardController.current
 
 
             JetpackComposeA2ZTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    Scaffold(
-                        scaffoldState = scaffoldState
-
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-
-                        ) {
-                            TextField(value = text, onValueChange = setValue)
-                            Button(onClick = {
-                                //suspense는 코루틴에서 실행
-                                keyboardController?.hide()
-                                scope.launch {
-
-                                    scaffoldState.snackbarHostState.
-                                    showSnackbar("Hello World : $text")
-                                }
-
-
-
-                            }) {
-                                Text("클릭")
-                            }
-                        }
-                    }
 
 
                 }
+            }
+        }
+    }
+}
+
+@ExperimentalComposeUiApi
+@Composable
+fun TextFieldTest() {
+//            val textValue : MutableState= remember {
+//                mutableStateOf("")
+//            }
+    val (text, setValue) = remember {
+        mutableStateOf("")
+    }
+
+    val scaffoldState = rememberScaffoldState()
+    //스낵바를 실행기위해서는 코루틴에서 실행해야함.
+    val scope = rememberCoroutineScope()
+    //키보드 활용 현재 실험적 기능
+    val keyboardController = LocalSoftwareKeyboardController.current
+    // 스낵바를 이용하려면 scaffold 활용
+    Scaffold(
+        scaffoldState = scaffoldState
+
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+
+        ) {
+            TextField(value = text, onValueChange = setValue)
+            Button(onClick = {
+                //suspense는 코루틴에서 실행
+                keyboardController?.hide()
+                scope.launch {
+
+                    scaffoldState.snackbarHostState.showSnackbar("Hello World : $text")
+                }
+
+
+            }) {
+                Text("클릭")
             }
         }
     }
