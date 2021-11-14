@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import dreamwalker.com.jetpackcomposea2z.ui.theme.JetpackComposeA2ZTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +49,8 @@ class MainActivity : ComponentActivity() {
 
             val scaffoldState = rememberScaffoldState()
 
+            val scope = rememberCoroutineScope()
+
 
             JetpackComposeA2ZTheme {
                 Surface(color = MaterialTheme.colors.background) {
@@ -62,7 +65,17 @@ class MainActivity : ComponentActivity() {
 
                         ) {
                             TextField(value = text, onValueChange = setValue)
-                            Button(onClick = { /*TODO*/ }) {
+                            Button(onClick = {
+                                //suspense는 코루틴에서 실행
+
+                                scope.launch {
+                                    scaffoldState.snackbarHostState.
+                                    showSnackbar("Hello World : $text")
+                                }
+
+
+
+                            }) {
                                 Text("클릭")
                             }
                         }
