@@ -38,26 +38,36 @@ class MainActivity : ComponentActivity() {
                 mutableStateOf(false)
             }
 
-            val textValue : MutableState= remember {
+//            val textValue : MutableState= remember {
+//                mutableStateOf("")
+//            }
+
+            val (text, setValue) = remember {
                 mutableStateOf("")
             }
+
+            val scaffoldState = rememberScaffoldState()
 
 
             JetpackComposeA2ZTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                    Scaffold(
+                        scaffoldState = scaffoldState
 
                     ) {
-                        TextField(value = textValue.value, onValueChange = {
-                            textValue.value = it
-                        })
-                        Button(onClick = { /*TODO*/ }) {
-                            Text("클릭")
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+
+                        ) {
+                            TextField(value = text, onValueChange = setValue)
+                            Button(onClick = { /*TODO*/ }) {
+                                Text("클릭")
+                            }
                         }
                     }
+
 
                 }
             }
