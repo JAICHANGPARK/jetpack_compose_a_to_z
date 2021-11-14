@@ -24,6 +24,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
@@ -36,15 +38,30 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         setContent {
             //Compose 시작점
             val scrollState = rememberScrollState()
             var isFavorite by rememberSaveable {
                 mutableStateOf(false)
             }
+
             val navController = rememberNavController()
 
+            NavHost(
+                navController = navController,
+                startDestination = "first",
+            ) {
+                composable("first") {
+                    FirstScreen()
+                }
+                composable("second") {
+                    SecondScreen()
+                }
+                composable("third") {
+                    ThirdScreen()
+                }
+
+            }
             JetpackComposeA2ZTheme {
                 Surface(color = MaterialTheme.colors.background) {
 
@@ -56,19 +73,19 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun FirstScreen(){
+fun FirstScreen() {
 
 }
 
 
 @Composable
-fun SecondScreen(){
+fun SecondScreen() {
 
 }
 
 
 @Composable
-fun ThirdScreen(){
+fun ThirdScreen() {
 
 }
 
