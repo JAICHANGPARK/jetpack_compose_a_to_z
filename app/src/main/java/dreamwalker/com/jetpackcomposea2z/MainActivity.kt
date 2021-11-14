@@ -38,12 +38,12 @@ import kotlinx.coroutines.launch
 
 @ExperimentalComposeUiApi
 class MainActivity : ComponentActivity() {
-    private val viewModel by viewModels<MainViewModel>();
+    //    private val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //Compose 시작점
         setContent {
-
+            val viewModel by viewModels<MainViewModel>()
             val scrollState = rememberScrollState()
             var isFavorite by rememberSaveable {
                 mutableStateOf(false)
@@ -56,9 +56,9 @@ class MainActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.Center
 
                     ) {
-                        Text(data.value, fontSize = 30.sp)
+                        Text(viewModel.data.value, fontSize = 30.sp)
                         Button(onClick = {
-                            data.value = "World"
+                            viewModel.changeValue("world")
 
                         }) {
                             Text("변경")
@@ -89,14 +89,15 @@ fun NavigationTest() {
                 navController = navController
             )
         }
-
     }
-
 }
 
 class MainViewModel : ViewModel() {
-    val data = mutableStateOf("Hello")
-
+    private val _data = mutableStateOf("Hello")
+    val data: State<String> = _data
+    fun changeValue(value: String){
+        _data.value = value
+    }
 }
 
 @Composable
