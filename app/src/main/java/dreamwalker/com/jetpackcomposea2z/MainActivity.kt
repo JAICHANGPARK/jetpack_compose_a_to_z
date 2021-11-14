@@ -13,12 +13,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,6 +38,11 @@ class MainActivity : ComponentActivity() {
                 mutableStateOf(false)
             }
 
+            val textValue : MutableState= remember {
+                mutableStateOf("")
+            }
+
+
             JetpackComposeA2ZTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     Column(
@@ -50,7 +51,9 @@ class MainActivity : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
 
                     ) {
-                        TextField(value = "", onValueChange = {})
+                        TextField(value = textValue.value, onValueChange = {
+                            textValue.value = it
+                        })
                         Button(onClick = { /*TODO*/ }) {
                             Text("클릭")
                         }
